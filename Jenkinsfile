@@ -3,12 +3,17 @@ pipeline {
    stages{
 
 
-   //  stage("Get All Vars"){
-   //    steps {
-   //       printenv
-   //    }
-   //  }  
-
+    stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: "artifactory-1",
+                    url: "http://172.31.32.31:8082/artifactory",
+                    username: 'admin',
+                    password: 'Admin@123'
+                    //credentialsId: CREDENTIALS
+                )
+            }
+    }
     stage("Build Code"){
       steps {
          script {
@@ -33,7 +38,7 @@ pipeline {
             steps {
                rtUpload (
                     // Obtain an Artifactory server instance, defined in Jenkins --> Manage Jenkins --> Configure System:
-                    serverId: artifactory-1,
+                    serverId: "artifactory-1",
                     spec: """{
                             "files": [
                                     {
