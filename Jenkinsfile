@@ -3,11 +3,11 @@ pipeline {
    stages{
 
 
-    stage("Get All Vars"){
-      steps {
-         printenv
-      }
-    }  
+   //  stage("Get All Vars"){
+   //    steps {
+   //       printenv
+   //    }
+   //  }  
 
     stage("Build Code"){
       steps {
