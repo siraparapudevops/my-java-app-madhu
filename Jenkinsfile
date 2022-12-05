@@ -25,6 +25,14 @@ pipeline {
          }
       }
     }
+
+    stage("runing Unit Tests"){
+      steps {
+         script {
+            sh "mvn test"
+         }
+      }
+    }
     stage("Code Analysis"){
       steps {
          script {
