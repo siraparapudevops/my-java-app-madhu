@@ -1,14 +1,22 @@
 pipeline {
    agent any
+
+   environment {
+
+    ARTIFACTORY_URL="http://172.31.32.31:8082/artifactory"
+    ARTIFACTORY_ID="artifactory-1"
+    ARTIFACTORY_CREDS="jfrog-creds"
+
+   }
    stages{
 
 
     stage ('Artifactory configuration') {
             steps {
                 rtServer (
-                    id: "artifactory-1",
-                    url: "http://172.31.32.31:8082/artifactory",
-                    credentialsId: 'jfrog-creds'
+                    id: "${ARTIFACTORY_ID}",
+                    url: "${ARTIFACTORY_URL}",
+                    credentialsId: "${ARTIFACTORY_CREDS}"
                 )
             }
     }
@@ -18,7 +26,7 @@ pipeline {
             sh '''
             mvn install
             myver="\$(grep -i version pom.xml |head -2 |tail -1|cut -d">" -f2|cut -d"<" -f1)"
-            mv target/*.war target/myApp-v.\$myver-release\${BUILD_NUMBER}.war
+            mv target/*.war target/myApp-v.\$myver-release-\${BUILD_NUMBER}.war
             '''
 
 
