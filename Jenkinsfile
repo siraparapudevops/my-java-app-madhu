@@ -17,8 +17,12 @@ pipeline {
          script {
             sh """
             mvn install
+<<<<<<< HEAD
             myver=$(grep -i version pom.xml |head -2 |tail -1|cut -d">" -f2|cut -d"<" -f1)
             mv target/*.war target/myApp-v.${myver}-release${BUILD_NUMBER}".war
+=======
+            mv target/*.war target/myApp-${BUILD_NUMBER}.war
+>>>>>>> bf8440dbe12b8938673990798f64a99b216025e4
             """
 
 
@@ -50,6 +54,14 @@ pipeline {
             }
         }
 
+<<<<<<< HEAD
+   }
+   post {
+      always {
+         cleanWs()
+      }
+=======
+>>>>>>> bf8440dbe12b8938673990798f64a99b216025e4
    }
    post {
       always {
