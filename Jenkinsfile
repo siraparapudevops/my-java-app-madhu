@@ -54,14 +54,6 @@ pipeline {
             }
         }
 
-<<<<<<< HEAD
-   }
-   post {
-      always {
-         cleanWs()
-      }
-=======
->>>>>>> bf8440dbe12b8938673990798f64a99b216025e4
    }
    post {
       always {
