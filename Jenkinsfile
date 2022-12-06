@@ -68,7 +68,7 @@ pipeline {
                             "files": [
                                     {
                                         "pattern": "target/*.war",
-                                        "target": "example-repo-local/venkat"
+                                        "target": "example-repo-local/venkat/"
                                     }
                                 ]
                             }"""
