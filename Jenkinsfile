@@ -12,7 +12,7 @@ pipeline {
    stages{
 
 
-    stage(){
+    stage("getVersion"){
       steps {
          def pom = readMavenPom file: 'pom.xml'
          echo pom.version
