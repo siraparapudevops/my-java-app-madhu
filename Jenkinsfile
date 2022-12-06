@@ -8,14 +8,14 @@ pipeline {
     ARTIFACTORY_CREDS="jfrog-creds"
 
    }
- 
+   pom = readMavenPom file: pom.xml
+   def versionNum ="${pom.version}"
+   pomVersion = versionNum[0]
    stages{
 
     stage("Build Code"){
       steps {
-         pom = readMavenPom file: pom.xml
-         def versionNum ="${pom.version}"
-         pomVersion = versionNum[0]
+         
          echo "printing ${pomVersion}"
          script {
             sh '''
