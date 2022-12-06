@@ -39,7 +39,8 @@ pipeline {
             withSonarQubeEnv('mysonarserver') {
                sh "${sonarHome}/bin/sonar-scanner -Dproject.settings=./myjavaapp.properties" 
             }
-            // sleep time: 30000, unit: 'MILLISECONDS'
+            sleep time: 30000, unit: 'MILLISECONDS'
+
       }
    }
 
