@@ -39,8 +39,15 @@ pipeline {
             withSonarQubeEnv('mysonarserver') {
                sh "${sonarHome}/bin/sonar-scanner -Dproject.settings=./myjavaapp.properties" 
             }
-            sleep time: 30000, unit: 'MILLISECONDS'
+            // sleep time: 30000, unit: 'MILLISECONDS'
       }
+    }
+
+    stage("Quality gate") {
+            steps {
+               //  waitForQualityGate abortPipeline: true
+                waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonar-creds'
+            }
     }
     stage ('Artifactory configuration') {
             steps {
