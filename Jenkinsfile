@@ -10,16 +10,6 @@ pipeline {
    }
    stages{
 
-
-    stage ('Artifactory configuration') {
-            steps {
-                rtServer (
-                    id: "${ARTIFACTORY_ID}",
-                    url: "${ARTIFACTORY_URL}",
-                    credentialsId: "${ARTIFACTORY_CREDS}"
-                )
-            }
-    }
     stage("Build Code"){
       steps {
          script {
@@ -42,13 +32,24 @@ pipeline {
       }
     }
     stage("Code Analysis"){
-      steps {
-         script {
-            sh "/opt/sonar/bin/sonar-scanner -Dproject.settings=./myjavaapp.properties"
-         }
+      environment {
+            def sonarHome = tool name: 'sonarscanner-4.7'
       }
+      steps {  
+            withSonarQubeEnv('mysonarserver') {
+               sh "${sonarHome}/bin/sonar-scanner -Dproject.settings=./myjavaapp.properties" 
+            }
+            sleep time: 30000, unit: 'MILLISECONDS'
+      }
+    stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: "${ARTIFACTORY_ID}",
+                    url: "${ARTIFACTORY_URL}",
+                    credentialsId: "${ARTIFACTORY_CREDS}"
+                )
+            }
     }
-
     stage ('Upload Artifacts') {
             steps {
                rtUpload (
