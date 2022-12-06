@@ -1,6 +1,6 @@
+def pomVersion
 pipeline {
    agent any
-
    environment {
 
     ARTIFACTORY_URL="http://172.31.32.31:8082/artifactory"
@@ -8,7 +8,7 @@ pipeline {
     ARTIFACTORY_CREDS="jfrog-creds"
 
    }
-   def pomVersion
+ 
    stages{
 
     stage("Build Code"){
