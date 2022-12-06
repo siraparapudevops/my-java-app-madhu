@@ -40,35 +40,16 @@ pipeline {
                sh "${sonarHome}/bin/sonar-scanner -Dproject.settings=./myjavaapp.properties" 
             }
             sleep time: 30000, unit: 'MILLISECONDS'
-
-      }
-   }
-
-   stage("Quality Gate") {
-      steps {
             script {
-                     
-               def qg = waitForQualityGate()
-               if (qg.status != 'OK') {
-                     error "Pipeline aborted due to quality gate failure: ${qg.status}"
-               }
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        }
             }
+
       }
    }
 
-   //  stage("Quality gate") {
-      
-   //          timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
-   //             def qg = waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonar-creds'// Reuse taskId previously collected by withSonarQubeEnv
-   //             steps  {
-   //                if (qg.status != 'OK') {
-   //                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
-   //                }
-   //             }
-               
-   //          }
-   
-   //  }
     stage ('Artifactory configuration') {
             steps {
                 rtServer (
