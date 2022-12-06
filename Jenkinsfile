@@ -31,7 +31,7 @@ pipeline {
          }
       }
     }
-    stage("Code Analysis"){
+    stage("Code Analysis & Check Quality Gate"){
       environment {
             def sonarHome = tool name: 'sonarscanner-4.7'
       }
@@ -39,15 +39,22 @@ pipeline {
             withSonarQubeEnv('mysonarserver') {
                sh "${sonarHome}/bin/sonar-scanner -Dproject.settings=./myjavaapp.properties" 
             }
-            sleep time: 30000, unit: 'MILLISECONDS'
-            script {
-                        def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                        }
-            }
+            // sleep time: 30000, unit: 'MILLISECONDS'
+            // script {
+            //    def qg = waitForQualityGate()
+            //    if (qg.status != 'OK') {
+            //          error "Pipeline aborted due to quality gate failure: ${qg.status}"
+            //    }
+            // }
 
       }
+   }
+   stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true, credentialsId: 'jenkins-sonar-creds'
+                }
+            }
    }
 
     stage ('Artifactory configuration') {
