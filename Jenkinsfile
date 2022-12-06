@@ -1,4 +1,4 @@
-def pomVersion
+
 pipeline {
    agent any
    environment {
@@ -6,17 +6,16 @@ pipeline {
     ARTIFACTORY_URL="http://172.31.32.31:8082/artifactory"
     ARTIFACTORY_ID="artifactory-1"
     ARTIFACTORY_CREDS="jfrog-creds"
+    VERSION = readMavenPom().getVersion()
 
    }
-   pom = readMavenPom file: pom.xml
-   def versionNum ="${pom.version}"
-   pomVersion = versionNum[0]
+ 
    stages{
 
     stage("Build Code"){
       steps {
          
-         echo "printing ${pomVersion}"
+         echo "printing ${VERSION}"
          script {
             sh '''
             mvn install
