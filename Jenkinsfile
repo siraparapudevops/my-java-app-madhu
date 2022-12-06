@@ -41,6 +41,7 @@ pipeline {
             }
             sleep time: 30000, unit: 'MILLISECONDS'
       }
+    }
     stage ('Artifactory configuration') {
             steps {
                 rtServer (
